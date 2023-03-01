@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Order = require('../models/order');
 
 // controller to get the user by Id
 exports.getUserById = (req, res, next, id) => {
@@ -57,4 +58,20 @@ exports.updateUser = (req, res) => {
 			res.json(user);
 		},
 	);
+};
+
+// controller to get user purchse list
+exports.userPurchaseList = (req, res) => {
+	Order.find({ user: req.profile._id })
+		.populate('user', '_id name') //reference documents in other collections
+		.exec((err, order) => {
+			// check for errors
+			if (err) {
+				return res.status(400).json({
+					error: 'No order in the acoount',
+				});
+			}
+			// if no error, get all the orders of that user
+			return res.json(order);
+		});
 };
