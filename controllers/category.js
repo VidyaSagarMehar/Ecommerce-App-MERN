@@ -49,6 +49,7 @@ exports.getAllCategory = (req, res) => {
 	});
 };
 
+//  controller to update category
 exports.updateCategory = (req, res) => {
 	const category = req.category; //grab category from the parameter
 	category.name = req.body.name; //grab category from client
@@ -62,5 +63,22 @@ exports.updateCategory = (req, res) => {
 		}
 		// if no error
 		res.json(updatedCategory);
+	});
+};
+
+//  controller to update category
+exports.deleteCategory = (req, res) => {
+	const category = req.category; //grab category from the parameter
+	category.remove((err, category) => {
+		// check for error
+		if (err) {
+			return req.status(400).json({
+				error: `Failed to delete the ${category}`,
+			});
+		}
+		// if no error
+		res.json({
+			message: `Successfully deleted ${category}`,
+		});
 	});
 };
