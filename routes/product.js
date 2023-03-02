@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getProductById } = require('../controllers/product');
+const { getProductById, creataProduct } = require('../controllers/product');
 const { isSignedIn, isAuthenticated, isAdmin } = require('../controllers/auth');
 const { getUserById } = require('../controllers/user');
 
@@ -10,6 +10,13 @@ router.param('userId', getUserById);
 router.param('productId', getProductById);
 
 // actual routes goes here
-// create category route
+// create product route
+router.post(
+	'/product/create/:userId',
+	isSignedIn,
+	isAuthenticated,
+	isAdmin,
+	creataProduct,
+);
 
 module.exports = router;
