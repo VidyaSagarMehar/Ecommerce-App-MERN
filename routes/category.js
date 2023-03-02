@@ -16,7 +16,7 @@ router.param('userId', getUserById);
 router.param('categoryId', getCategoryById);
 
 // actual routes goes here
-// create route
+// create category route
 router.post(
 	'/category/create/:userId',
 	isSignedIn,
@@ -24,10 +24,10 @@ router.post(
 	isAdmin,
 	createCategory,
 );
-// read route
+// read category route
 router.get('/category/:categoryId', getCategory);
 router.get('/categories', getAllCategory);
-// update route
+// update category route
 router.put(
 	'/category/:categoryId/:userId',
 	isSignedIn,
@@ -35,7 +35,7 @@ router.put(
 	isAdmin,
 	updateCategory,
 );
-// delete route
+// delete category route
 router.delete(
 	'/category/:categoryId/:userId',
 	isSignedIn,
