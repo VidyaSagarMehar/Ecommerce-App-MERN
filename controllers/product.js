@@ -31,7 +31,14 @@ exports.creataProduct = (req, res) => {
 			});
 		}
 		// if no error
-		// TODO: restriction on field
+		// destructure the fields
+		const { name, description, price, category, stock } = fields;
+		// restriction on field
+		if (!name || !description || !price || !category || !stock) {
+			return res.status(400).json({
+				error: 'All fields are required',
+			});
+		}
 		let product = new Product(fields);
 
 		// handle file here
