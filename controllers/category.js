@@ -32,7 +32,7 @@ exports.createCategory = (req, res) => {
 
 // controller to get category
 exports.getCategory = (req, res) => {
-	return res.json(req.category);
+	return res.json(req.category); //grab category from the parameter
 };
 
 // controller to get all categories
@@ -46,5 +46,21 @@ exports.getAllCategory = (req, res) => {
 		}
 		// if no error
 		res.json(categories);
+	});
+};
+
+exports.updateCategory = (req, res) => {
+	const category = req.category; //grab category from the parameter
+	category.name = req.body.name; //grab category from client
+
+	category.save((err, updatedCategory) => {
+		// check for error
+		if (err) {
+			return req.status(400).json({
+				error: 'Failed to update categoory',
+			});
+		}
+		// if no error
+		res.json(updatedCategory);
 	});
 };
