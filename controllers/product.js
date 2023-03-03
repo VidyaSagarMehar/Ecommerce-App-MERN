@@ -2,6 +2,7 @@ const Product = require('../models/product');
 const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs'); //file system
+const { sortBy } = require('lodash');
 
 // middleware
 exports.getProductById = (req, res, next, id) => {
@@ -142,4 +143,25 @@ exports.updateProduct = (req, res) => {
 			res.json(product);
 		});
 	});
+};
+
+// get all products controller
+exports.getAllProducts = (req, res) => {
+	let limit = req.query.limit ? parseInt(req.query.limit) : 8; // take querry from front end or set default limit to 8
+	let sortBy = req.query.sortBy ? req.query.sortBy : '_id'; // sort the product by ascending order or default will be sort by _id
+	Product.find()
+		.select('-photo')
+		.populate('category')
+		.sort([[sortBy, 'asc']])
+		.limit(limit)
+		.exec((err, products) => {
+			// check for error
+			if (err) {
+				return res.status(400).json({
+					error: 'No product found',
+				});
+			}
+			// if no error
+			res.json(products);
+		});
 };
