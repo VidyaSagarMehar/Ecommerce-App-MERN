@@ -103,4 +103,43 @@ exports.deleteProduct = (req, res) => {
 };
 
 // update product controller
-exports.updateProduct = (req, res) => {};
+exports.updateProduct = (req, res) => {
+	let form = new formidable.IncomingForm();
+	form.keepExtensions = true;
+
+	form.parse(req, (err, fields, file) => {
+		// check for error
+		if (err) {
+			return res.status(400).json({
+				error: 'Problem with image',
+			});
+		}
+		// if no error
+		// update the product
+		let product = req.product; //grabbing product from getProductById middleware
+		product = _.extend(product, fields); // take info from the field(using formidable) and assign it to product(using lodash)
+
+		// handle file here
+		if (file.photo) {
+			if (file.photo.size > 3000000) {
+				return res.status(400).json({
+					error: 'file size too big!',
+				});
+			}
+			product.photo.data = fs.readFileSync(file.photo.path);
+			product.photo.contentType = file.photo.type;
+		}
+
+		// save to db
+		product.save((err, product) => {
+			// check for error
+			if (err) {
+				return res.status(400).json({
+					error: 'Updation of product failed',
+				});
+			}
+			// if no error
+			res.json(product);
+		});
+	});
+};
