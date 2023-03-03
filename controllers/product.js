@@ -165,3 +165,29 @@ exports.getAllProducts = (req, res) => {
 			res.json(products);
 		});
 };
+
+// middlware
+// to update sold and stock in product model combined
+exports.updateStock = (req, res, next) => {
+	let myOperations = req.body.order.product.map((prod) => {
+		return {
+			// operation
+			updateOne: {
+				filter: { _id: prod._id }, //locate the product
+				update: { $inc: { stock: -prod.count, sold: +prod.count } }, // increment sold count and decrement stock count
+			},
+		};
+	});
+	// performing bulk operation
+	Product.bulkWrite(myOperations, {}, (err, products) => {
+		// check for error
+		if (err) {
+			return res.status(400).json({
+				error: 'Bulk opration failed',
+			});
+		}
+		// if no error
+		// handle the opration to next() middleware
+		next();
+	});
+};
