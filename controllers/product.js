@@ -166,6 +166,20 @@ exports.getAllProducts = (req, res) => {
 		});
 };
 
+// get all products controller
+exports.getAllUniqueCategories = (req, res) => {
+	Product.distinct('category', {}, (err, category) => {
+		// check for error
+		if (err) {
+			return res.status(400).json({
+				error: 'No category found',
+			});
+		}
+		// if no error
+		res.json(category);
+	});
+};
+
 // middlware
 // to update sold and stock in product model combined
 exports.updateStock = (req, res, next) => {
