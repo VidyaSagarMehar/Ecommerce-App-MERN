@@ -65,3 +65,17 @@ exports.creataProduct = (req, res) => {
 		});
 	});
 };
+
+exports.getProduct = (req, res) => {
+	req.product.photo = undefined; // do not want to send the parsed photo as json
+	return res.json(req.product); //grabbing product from getProductById
+};
+
+// middlware
+exports.photo = (req, res, next) => {
+	if (req.product.photo.data) {
+		res.set('Content-Type', req.product.photo.contentType);
+		return res.send(req.product.photo.data);
+	}
+	next();
+};
