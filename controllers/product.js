@@ -3,6 +3,7 @@ const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs'); //file system
 
+// middleware
 exports.getProductById = (req, res, next, id) => {
 	Product.findById(id)
 		.populate('category')
@@ -18,6 +19,8 @@ exports.getProductById = (req, res, next, id) => {
 			next();
 		});
 };
+
+// create product controller
 
 exports.creataProduct = (req, res) => {
 	let form = new formidable.IncomingForm();
@@ -66,9 +69,10 @@ exports.creataProduct = (req, res) => {
 	});
 };
 
+// get product controller
 exports.getProduct = (req, res) => {
 	req.product.photo = undefined; // do not want to send the parsed photo as json
-	return res.json(req.product); //grabbing product from getProductById
+	return res.json(req.product); //grabbing product from getProductById middleware
 };
 
 // middlware
@@ -79,3 +83,24 @@ exports.photo = (req, res, next) => {
 	}
 	next();
 };
+
+// delete product controller
+exports.deleteProduct = (req, res) => {
+	let product = req.product; //grabbing product from getProductById middleware
+	product.remove((err, deletedProduct) => {
+		// check for error
+		if (err) {
+			return res.status(400).json({
+				error: 'Faield to delte the product',
+			});
+		}
+		// if no error
+		res.json({
+			message: 'Product deleted successfully',
+			deletedProduct,
+		});
+	});
+};
+
+// update product controller
+exports.updateProduct = (req, res) => {};
