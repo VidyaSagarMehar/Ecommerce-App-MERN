@@ -32,3 +32,19 @@ exports.createOrder = (req, res) => {
 		res.json(order);
 	});
 };
+
+// get all orders controller
+exports.getAllOrders = (req, res) => {
+	Order.find()
+		.populate('user', '_id name')
+		.exec((err, orders) => {
+			// check for error
+			if (err) {
+				return req.status(400).json({
+					error: 'No orders found in DB',
+				});
+			}
+			// if no error
+			res.json(orders);
+		});
+};
