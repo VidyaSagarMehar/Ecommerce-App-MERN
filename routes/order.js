@@ -7,6 +7,8 @@ const {
 	getOrderById,
 	createOrder,
 	getAllOrders,
+	updateStatus,
+	getOrderStatus,
 } = require('../controllers/order');
 
 // params to populate
@@ -31,6 +33,24 @@ router.get(
 	isAuthenticated,
 	isAdmin,
 	getAllOrders,
+);
+
+// order status route
+router.get(
+	'/order/status/:userId',
+	isSignedIn,
+	isAuthenticated,
+	isAdmin,
+	getOrderStatus,
+);
+
+// update order route
+router.put(
+	'/order/:orderId/status/:userId',
+	isSignedIn,
+	isAuthenticated,
+	isAdmin,
+	updateStatus,
 );
 
 module.exports = router;

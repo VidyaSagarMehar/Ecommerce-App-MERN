@@ -48,3 +48,27 @@ exports.getAllOrders = (req, res) => {
 			res.json(orders);
 		});
 };
+// get order status controller
+exports.getOrderStatus = (req, res) => {
+	res.json(Order.schema.path('status').enumValues);
+};
+
+// update order controller
+exports.updateStatus = (req, res) => {
+	Order.update(
+		{
+			_id: req.body.orderId,
+		},
+		{ $set: { status: req.body.status } },
+		(err, order) => {
+			// check for error
+			if (err) {
+				return req.status(400).json({
+					error: 'Cannot update order status',
+				});
+			}
+			// if no error
+			res.json(order);
+		},
+	);
+};
