@@ -14,7 +14,7 @@ const {
 const { isSignedIn, isAuthenticated, isAdmin } = require('../controllers/auth');
 const { getUserById } = require('../controllers/user');
 
-// populate using params
+// params to populate
 router.param('userId', getUserById);
 router.param('productId', getProductById);
 
@@ -27,8 +27,10 @@ router.post(
 	isAdmin,
 	creataProduct,
 );
+
 // get a product route
 router.get('/product/:productId', getProduct);
+
 // get a product photo route
 router.get('/product/photo/:productId', photo);
 

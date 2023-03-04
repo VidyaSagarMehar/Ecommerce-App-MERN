@@ -22,7 +22,6 @@ exports.getProductById = (req, res, next, id) => {
 };
 
 // create product controller
-
 exports.creataProduct = (req, res) => {
 	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
