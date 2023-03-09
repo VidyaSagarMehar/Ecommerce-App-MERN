@@ -15,7 +15,7 @@ const Signup = () => {
 	// Destructuring the state values
 	const { name, email, password, error, success } = values;
 
-	// handle onChange methods
+	// handle onChange method
 	const handleChange = (name) => (event) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
@@ -54,7 +54,7 @@ const Signup = () => {
 						className="alert alert-success"
 						style={{ display: success ? '' : 'none' }}
 					>
-						New account was created successfully. Please{' '}
+						New account was created successfully. Please
 						<Link to="/signin">Login Here</Link>
 					</div>
 				</div>
