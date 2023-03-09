@@ -28,12 +28,10 @@ const Signup = () => {
 			</div>
 		);
 	};
-
 	return (
 		<Base title="Sign Up Page" description="A page for user to sign up">
 			{signUpForm()}
 		</Base>
 	);
 };
-
 export default Signup;
