@@ -25,7 +25,7 @@ const Signin = () => {
 		);
 	};
 	return (
-		<Base title="Sign Up Page" description="A page for user to sign up">
+		<Base title="Sign in Page" description="A page for user to sign up">
 			{signInForm()}
 		</Base>
 	);
