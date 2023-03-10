@@ -11,6 +11,8 @@ const currentTab = (history, path) => {
 };
 
 const Menu = ({ history }) => {
+	// holding authentication values/jwt in user
+	const { user } = isAuthenticated();
 	return (
 		<div>
 			<ul className="nav nav-tabs bg-dark">
@@ -28,24 +30,30 @@ const Menu = ({ history }) => {
 						Cart
 					</Link>
 				</li>
-				<li className="nav-item">
-					<Link
-						style={currentTab(history, '/user/dashboard')}
-						className="nav-link"
-						to="/user/dashboard"
-					>
-						Dashboard
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link
-						style={currentTab(history, '/admin/dashboard')}
-						className="nav-link"
-						to="/admin/dashboard"
-					>
-						A.Dashboard
-					</Link>
-				</li>
+				{/* Logic to show user -  user dashboard */}
+				{isAuthenticated() && user.role === 0 && (
+					<li className="nav-item">
+						<Link
+							style={currentTab(history, '/user/dashboard')}
+							className="nav-link"
+							to="/user/dashboard"
+						>
+							Dashboard
+						</Link>
+					</li>
+				)}
+				{/* Logic to show admin - admin dashboard */}
+				{isAuthenticated() && user.role === 1 && (
+					<li className="nav-item">
+						<Link
+							style={currentTab(history, '/admin/dashboard')}
+							className="nav-link"
+							to="/admin/dashboard"
+						>
+							A.Dashboard
+						</Link>
+					</li>
+				)}
 				{/* Wrapping signup and signin in react-fragment */}
 				{/* condition to show signin & signup button using alternate of terniary operaor */}
 				{!isAuthenticated() && (

@@ -47,12 +47,11 @@ const Signin = () => {
 
 	// Logic to redirect
 	const performRedirect = () => {
-		// TODO: need to do redirect here
 		if (didRedirect) {
 			if (user && user.role === 1) {
-				return <p>Redirect to amdmin dashboard</p>;
+				return <Redirect to="/admin/dashboard" />;
 			} else {
-				return <p>Redirect to user dashboard</p>;
+				return <Redirect to="/user/dashboard" />;
 			}
 		}
 		if (isAuthenticated()) {
