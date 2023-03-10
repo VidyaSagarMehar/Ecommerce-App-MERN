@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { signout, isAuthenticated } from '../auth/helper';
 
@@ -46,25 +46,31 @@ const Menu = ({ history }) => {
 						A.Dashboard
 					</Link>
 				</li>
-				<li className="nav-item">
-					<Link
-						style={currentTab(history, '/signup')}
-						className="nav-link"
-						to="/signup"
-					>
-						Signup
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link
-						style={currentTab(history, '/signin')}
-						className="nav-link"
-						to="/signin"
-					>
-						Signin
-					</Link>
-				</li>
-				{/* condition to show signout button / alternate of terniary operaor */}
+				{/* Wrapping signup and signin in react-fragment */}
+				{/* condition to show signin & signup button using alternate of terniary operaor */}
+				{!isAuthenticated() && (
+					<Fragment>
+						<li className="nav-item">
+							<Link
+								style={currentTab(history, '/signup')}
+								className="nav-link"
+								to="/signup"
+							>
+								Signup
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link
+								style={currentTab(history, '/signin')}
+								className="nav-link"
+								to="/signin"
+							>
+								Signin
+							</Link>
+						</li>
+					</Fragment>
+				)}
+				{/* condition to show signout button using alternate of terniary operaor */}
 				{isAuthenticated() && (
 					<li className="nav-item">
 						<span
