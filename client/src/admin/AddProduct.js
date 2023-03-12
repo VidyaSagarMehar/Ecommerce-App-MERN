@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Base from '../core/Base';
-import { getCategories } from './helper/adminapicall';
+import { createProduct, getCategories } from './helper/adminapicall';
 import { isAuthenticated } from '../auth/helper';
 
 const AddProduct = () => {
@@ -18,7 +18,7 @@ const AddProduct = () => {
 		loading: false,
 		error: '',
 		createdProduct: '',
-		getRedirect: false,
+		getaRedirect: false,
 		formData: '',
 	});
 
@@ -33,10 +33,11 @@ const AddProduct = () => {
 		loading,
 		error,
 		createdProduct,
-		getRedirect,
+		getaRedirect,
 		formData,
 	} = values;
 
+	// preload the categories in select options
 	const preload = () => {
 		getCategories().then((data) => {
 			if (data.error) {
@@ -53,16 +54,61 @@ const AddProduct = () => {
 	}, []);
 
 	// On submit handler
-	const onSubmit = () => {
-		//
+	const onSubmit = (event) => {
+		event.preventDefault();
+		setValues({ ...values, error: '', loading: true });
+		createProduct(user._id, token, formData)
+			.then((data) => {
+				if (data.error) {
+					setValues({ ...values, error: data.error });
+				} else {
+					setValues({
+						...values,
+						name: '',
+						description: '',
+						price: '',
+						photo: '',
+						stock: '',
+						loading: false,
+						getaRedirect: true,
+						createdProduct: data.name,
+					});
+				}
+			})
+			.catch((err) => console.log(err));
 	};
 
+	// TODO: if getaRedirect: true,  redirect to admin home page
+
 	// handle change handler to handle image upload and other
-	const handleChange = () => {
-		// const value = name === 'photo' ? event.target.file[0] : event.target.value;
-		// formData.set(name, value);
-		// setValues({ ...values, [name]: value });
+	const handleChange = (name) => (event) => {
+		const value = name === 'photo' ? event.target.files[0] : event.target.value;
+		formData.set(name, value);
+		setValues({ ...values, [name]: value });
 	};
+
+	// success message
+	const successMessage = () => {
+		return (
+			<div
+				className="alert alert-success mt-3"
+				style={{ display: createdProduct ? '' : 'none' }}
+			>
+				<h4>{createdProduct} created successfully</h4>
+			</div>
+		);
+	};
+	// warning message
+	// const warningMessage = () => {
+	// 	return (
+	// 		<div
+	// 			className="alert alert-warning mt-3"
+	// 			style={{ display: !createProduct ? '' : 'none' }}
+	// 		>
+	// 			<h4>failed to create</h4>
+	// 		</div>
+	// 	);
+	// };
 
 	// Form to create a product
 	const createProductForm = () => (
@@ -123,10 +169,10 @@ const AddProduct = () => {
 			</div>
 			<div className="form-group">
 				<input
-					onChange={handleChange('quantity')}
+					onChange={handleChange('stock')}
 					type="number"
 					className="form-control"
-					placeholder="Quantity"
+					placeholder="stock"
 					value={stock}
 				/>
 			</div>
@@ -144,12 +190,14 @@ const AddProduct = () => {
 		<Base
 			title="Add product here!"
 			description="Welcome to product creation section"
-			className="container bg-info p-4"
+			className="container bg-info p-4 "
 		>
 			<Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">
 				Admin Home
 			</Link>
 			<div className="row bg-dark text-white rounded container">
+				{successMessage()}
+				{/* {warningMessage()} */}
 				<div className="col-md-8 offset-md-2">{createProductForm()}</div>
 			</div>
 		</Base>
