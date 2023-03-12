@@ -37,7 +37,7 @@ const AddProduct = () => {
 		formData,
 	} = values;
 
-	// preload the categories in select options
+	// preload the categories in select options from getCategories method of 'adminapicall'
 	const preload = () => {
 		getCategories().then((data) => {
 			if (data.error) {
