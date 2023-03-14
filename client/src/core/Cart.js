@@ -1,0 +1,53 @@
+import React, { useState, useEffect } from 'react';
+import '../styles.css';
+import { API } from '../backend';
+import Base from './Base';
+import Card from './Card';
+import { loadCart } from './helper/cartHelper';
+
+const Cart = () => {
+	// All the states
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		setProducts(loadCart());
+	}, []);
+
+	// for showing all the products
+	const loadAllProducts = () => {
+		return (
+			<div>
+				<h2>This section is to load products</h2>
+				{products.map((product, index) => {
+					return (
+						<Card
+							key={index}
+							product={product}
+							removeFromCart={true}
+							addToCart={false}
+						/>
+					);
+				})}
+			</div>
+		);
+	};
+
+	// for showing checkout section
+	const loadCheckout = () => {
+		return (
+			<div>
+				<h2>This section is to load checkot</h2>
+			</div>
+		);
+	};
+
+	return (
+		<Base title="Cart Page" description="Ready to Checkout">
+			<div className="row text-center">
+				<div className="col-6">{loadAllProducts()}</div>
+				<div className="col-6">{loadCheckout()}</div>
+			</div>
+		</Base>
+	);
+};
+export default Cart;
