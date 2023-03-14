@@ -7,10 +7,12 @@ import { loadCart } from './helper/cartHelper';
 const Cart = () => {
 	// All the states
 	const [products, setProducts] = useState([]);
+	// to forcefully reload the component after removing product from cart
+	const [reload, setReload] = useState(false);
 
 	useEffect(() => {
 		setProducts(loadCart());
-	}, []);
+	}, [reload]);
 
 	// for showing all the products
 	const loadAllProducts = () => {
@@ -24,6 +26,8 @@ const Cart = () => {
 							product={product}
 							removeFromCart={true}
 							addToCart={false}
+							setReload={setReload}
+							reload={reload}
 						/>
 					);
 				})}

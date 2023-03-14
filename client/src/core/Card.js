@@ -3,7 +3,13 @@ import { Redirect } from 'react-router-dom';
 import { addItemToCart, removeItemFromCart } from './helper/cartHelper';
 import ImageHelper from './helper/ImageHelper';
 
-const Card = ({ product, addToCart = true, removeFromCart = false }) => {
+const Card = ({
+	product,
+	addToCart = true,
+	removeFromCart = false,
+	setReload = (f) => f, //function(f){return f},
+	reload = undefined,
+}) => {
 	// all states here
 	const [redirect, setRedirect] = useState(false);
 	const [count, setCount] = useState(product.count);
@@ -48,6 +54,7 @@ const Card = ({ product, addToCart = true, removeFromCart = false }) => {
 				<button
 					onClick={() => {
 						removeItemFromCart(product._id);
+						setReload(!reload);
 					}}
 					className="btn btn-block btn-outline-danger mt-2 mb-2"
 				>
