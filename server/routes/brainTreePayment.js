@@ -4,7 +4,7 @@ const { isSignedIn, isAuthenticated } = require('../controllers/auth');
 const { route } = require('./auth');
 const { getToken, processPayment } = require('../controllers/brainTreePayment');
 
-// get route
+// get route to get token
 router.get('/payment/gettoken/:userId', isSignedIn, isAuthenticated, getToken);
 // post route
 router.post(
