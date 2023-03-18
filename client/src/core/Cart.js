@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles.css';
 import Base from './Base';
+import BrainTreePament from './BrainTreePament';
 import Card from './Card';
 import { loadCart } from './helper/cartHelper';
 import StripeCheckout from './StripeCheckout';
@@ -16,7 +17,7 @@ const Cart = () => {
 	}, [reload]);
 
 	// for showing all the products
-	const loadAllProducts = () => {
+	const loadAllProducts = (products) => {
 		return (
 			<div>
 				<h2>This section is to load products</h2>
@@ -48,9 +49,16 @@ const Cart = () => {
 	return (
 		<Base title="Cart Page" description="Ready to Checkout">
 			<div className="row text-center">
-				<div className="col-6">{loadAllProducts()}</div>
 				<div className="col-6">
-					<StripeCheckout products={products} setReload={setReload} />
+					{products.length > 0 ? (
+						loadAllProducts(products)
+					) : (
+						<h3>no products in cart</h3>
+					)}
+				</div>
+				<div className="col-6">
+					{/* <StripeCheckout products={products} setReload={setReload} /> */}
+					<BrainTreePament products={products} setReload={setReload} />
 				</div>
 			</div>
 		</Base>

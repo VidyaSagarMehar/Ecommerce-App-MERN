@@ -51,7 +51,7 @@ const StripeCheckout = ({
 				// can call furthur method here
 				const { status } = response;
 				console.log('STATUS', status);
-				cardEmpty();
+				// cardEmpty();
 			})
 			.catch((err) => console.log(err));
 	};
