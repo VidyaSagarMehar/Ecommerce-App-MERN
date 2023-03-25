@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../styles.css';
 import Base from './Base';
-import BrainTreePament from './BrainTreePament';
+// import BrainTreePament from './BrainTreePament';
 import Card from './Card';
 import { loadCart } from './helper/cartHelper';
-import StripeCheckout from './StripeCheckout';
+// import StripeCheckout from './StripeCheckout';
 
 const Cart = () => {
 	// All the states
@@ -57,8 +57,9 @@ const Cart = () => {
 					)}
 				</div>
 				<div className="col-6">
+					<h3>Payment getway here</h3>
 					{/* <StripeCheckout products={products} setReload={setReload} /> */}
-					<BrainTreePament products={products} setReload={setReload} />
+					{/* <BrainTreePament products={products} setReload={setReload} /> */}
 				</div>
 			</div>
 		</Base>
